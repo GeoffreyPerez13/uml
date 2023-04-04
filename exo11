@@ -1,0 +1,69 @@
+<?php
+
+class Technician {
+    private $name;
+    private $vehicles = array();
+  
+    public function __construct($name) {
+        $this->name = $name;
+    }
+  
+    public function assignVehicle(Vehicle $vehicle) {
+        $this->vehicles[] = $vehicle;
+        $vehicle->addTechnician($this);
+    }
+  
+    public function getVehicles() {
+        return $this->vehicles;
+    }
+  }
+
+
+class Vehicle {
+    private $registerNumber;
+    private $technicians = array();
+  
+    public function __construct($registerNumber) {
+        $this->registerNumber = $registerNumber;
+    }
+  
+    public function addTechnician(Technician $technician) {
+        $this->technicians[] = $technician;
+    }
+  
+    public function assignTechnician(Technician $technician) {
+        $this->addTechnician($technician);
+        $technician->addVehicle($this);
+    }
+  
+    public function getTechnicians() {
+        return $this->technicians;
+    }
+  }
+
+  
+//Q11
+// création des instances de véhicule et de technicien
+$vA = new Vehicle("MARS13");
+$vB = new Vehicle("VELO95");
+
+$paul = new Technician("Paul");
+$juliette = new Technician("Juliette");
+$jalila = new Technician("Jalila");
+
+// assignation des techniciens aux véhicules
+$paul->assignVehicle($vA);
+$juliette->assignVehicle($vA);
+$juliette->assignVehicle($vB);
+$jalila->assignVehicle($vB);
+
+// affichage des techniciens associés à chaque véhicule
+var_dump($vA->getTechnicians());
+var_dump($vB->getTechnicians());
+
+// affichage des véhicules associés à chaque technicien
+var_dump($paul->getVehicles());
+var_dump($juliette->getVehicles());
+var_dump($jalila->getVehicles());
+
+
