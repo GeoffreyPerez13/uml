@@ -33,7 +33,7 @@ class Waiter {
     }
   }
 
-$waiter = new Waiter("John");
+$waiter = new Waiter("Geoffrey");
 
 $table1 = new Table(1);
 $table2 = new Table(2);
