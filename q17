@@ -1,0 +1,79 @@
+<?php
+
+class Waiter {
+  private string $name;
+  private array $tables;
+
+  public function __construct(string $name) {
+    $this->name = $name;
+    $this->tables = [];
+  }
+
+  public function serve(Table $table): void {
+    if (count($table->getWaiters()) >= 1) {
+      throw new Exception("La table est déjà servie par un serveur.");
+    }
+    if (count($this->tables) >= 4) {
+      throw new Exception("Le serveur ne peut pas servir plus de 4 tables.");
+    }
+    $this->tables[] = $table;
+    $table->addWaiter($this);
+  }
+
+  public function getName(): string {
+    return $this->name;
+  }
+
+  public function getTables(): array {
+    return $this->tables;
+  }
+}
+
+class Table {
+  private int $id;
+  private array $waiters;
+
+  public function __construct(int $id) {
+    $this->id = $id;
+    $this->waiters = [];
+  }
+
+  public function addWaiter(Waiter $waiter): void {
+    $this->waiters[] = $waiter;
+  }
+
+  public function getWaiters(): array {
+    return $this->waiters;
+  }
+
+  public function getId(): int {
+    return $this->id;
+  }
+}
+
+
+// création de deux serveurs
+$waiter1 = new Waiter("John");
+$waiter2 = new Waiter("Jane");
+
+// création de cinq tables
+$table1 = new Table(1);
+$table2 = new Table(2);
+$table3 = new Table(3);
+$table4 = new Table(4);
+$table5 = new Table(5);
+
+// attribution des tables aux serveurs
+$waiter1->serve($table1);
+$waiter1->serve($table2);
+$waiter1->serve($table3);
+$waiter2->serve($table4);
+$waiter2->serve($table5);
+
+// affichage des tables de chaque serveur
+var_dump($waiter1->getTables()); 
+
+var_dump($waiter2->getTables()); 
+
+// $waiter1->serve($table5); // "Le serveur ne peut pas servir plus de 4 tables."
+// $waiter2->serve($table1); // "La table est déjà servie par un serveur."
