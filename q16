@@ -1,0 +1,57 @@
+<?php
+
+class Waiter {
+  private string $name;
+  private array $tables;
+
+  public function __construct(string $name) {
+    $this->name = $name;
+    $this->tables = [];
+  }
+
+  public function serve(Table $table): void {
+    if (count($this->tables) >= 4) {
+      throw new Exception("Le serveur ne peut pas servir plus de 4 tables.");
+    }
+    $this->tables[] = $table;
+  }
+
+  public function getName(): string {
+    return $this->name;
+  }
+
+  public function getTables(): array {
+    return $this->tables;
+  }
+}
+
+class Table {
+  private int $id;
+
+  public function __construct(int $id) {
+    $this->id = $id;
+  }
+
+  public function getId(): int {
+    return $this->id;
+  }
+}
+
+
+$waiter = new Waiter("Geoffrey");
+
+$table1 = new Table(1);
+$table2 = new Table(2);
+$table3 = new Table(3);
+$table4 = new Table(4);
+$table5 = new Table(5);
+
+$waiter->serve($table1);
+$waiter->serve($table2);
+$waiter->serve($table3);
+$waiter->serve($table4);
+
+// $waiter->serve($table5); // Lève une exception
+
+var_dump($waiter->getName()); // affiche "string(4) "Geoffrey""
+var_dump($waiter->getTables()); // affiche un tableau avec les objets Table de $table1, $table2, $table3 et $table4
