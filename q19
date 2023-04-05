@@ -1,0 +1,50 @@
+<?php
+
+class Technician {
+    private $subordinates = array();
+    private $superior = null;
+
+    public function getSubordinates(): array {
+        return $this->subordinates;
+    }
+    
+    public function addSubordinate(Technician $sub): void {
+        if ($sub !== $this) {
+            $this->subordinates[] = $sub;
+        }
+    }
+
+    public function getSuperior(): ?Technician {
+        return $this->superior;
+    }
+
+    public function setSuperior(Technician $sup): void {
+        if ($sup !== $this) {
+            $this->superior = $sup;
+        }
+    }    
+}
+
+
+// Créer trois instances de la classe Technician
+$tech1 = new Technician();
+$tech2 = new Technician();
+$tech3 = new Technician();
+
+// Définir tech1 comme le supérieur hiérarchique de tech2
+$tech2->setSuperior($tech1);
+
+// Ajouter tech3 comme subordonné hiérarchique de tech2
+$tech2->addSubordinate($tech3);
+
+// Afficher les informations de tech1
+var_dump($tech1->getSubordinates()); 
+var_dump($tech1->getSuperior()); // NULL
+
+// Afficher les informations de tech2
+var_dump($tech2->getSubordinates()); 
+var_dump($tech2->getSuperior()); 
+
+// Afficher les informations de tech3
+var_dump($tech3->getSubordinates()); 
+var_dump($tech3->getSuperior()); 
